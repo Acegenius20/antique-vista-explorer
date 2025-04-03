@@ -1,3 +1,4 @@
+
 export interface Antique {
   id: string;
   name: string;
@@ -34,7 +35,7 @@ export const antiques: Antique[] = [
     year: "c. 1750",
     description: "An exquisite Louis XV period commode with marquetry inlay and gilt bronze mounts.",
     longDescription: "This remarkable Louis XV period commode exemplifies the elegance and sophistication of 18th century French furniture craftsmanship. The commode features a serpentine front and sides, with two drawers adorned with intricate marquetry work depicting floral motifs. The piece is elevated by gilt bronze mounts and stands on cabriole legs. The rich patina of the wood showcases its age and authenticity, making it a true collector's piece.",
-    imageUrl: "https://images.unsplash.com/photo-1600607686527-a7820a829dfe?q=80&w=1935&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1617104829017-7ea0cd981928?q=80&w=1964&auto=format&fit=crop",
     additionalImages: [
       "https://images.unsplash.com/photo-1631489351122-c4506f2d4235?q=80&w=1974&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1600607686527-a7820a829dfe?q=80&w=1935&auto=format&fit=crop"
