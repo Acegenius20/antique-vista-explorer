@@ -1,25 +1,68 @@
 
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Search, Heart } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, Search, Heart, ArrowRight } from 'lucide-react';
 import { useAntiques } from '../context/AntiqueContext';
+import { Antique } from '../data/antiques';
+import {
+  Command,
+  CommandInput,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState<Antique[]>([]);
   const location = useLocation();
-  const { wishlist, setFilters } = useAntiques();
+  const navigate = useNavigate();
+  const { wishlist, setFilters, allAntiques } = useAntiques();
+  const searchRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  useEffect(() => {
+    if (searchValue.trim() === '') {
+      setSearchResults([]);
+      return;
+    }
+
+    const query = searchValue.toLowerCase();
+    const results = allAntiques.filter(
+      antique => 
+        antique.name.toLowerCase().includes(query) || 
+        antique.description.toLowerCase().includes(query) ||
+        antique.era.toLowerCase().includes(query) ||
+        antique.material.toLowerCase().includes(query) ||
+        antique.origin.toLowerCase().includes(query)
+    ).slice(0, 5);  // Limit to first 5 results
+    
+    setSearchResults(results);
+  }, [searchValue, allAntiques]);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setFilters((prev: any) => ({ ...prev, search: searchValue }));
     if (location.pathname !== '/collection') {
-      window.location.href = '/collection';
+      navigate('/collection');
     }
+    setIsSearchOpen(false);
+  };
+
+  const handleSearchItemSelect = (antiqueId: string) => {
+    navigate(`/antique/${antiqueId}`);
+    setIsSearchOpen(false);
+    setSearchValue('');
   };
 
   const navLinks = [
@@ -55,21 +98,70 @@ const Navbar = () => {
 
           {/* Search and Wishlist */}
           <div className="hidden md:flex items-center space-x-4">
-            <form onSubmit={handleSearch} className="relative">
-              <input
-                type="text"
-                placeholder="Search antiques..."
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                className="px-4 py-2 pr-10 rounded-md bg-muted border border-border focus:outline-none focus:ring-1 focus:ring-primary"
-              />
-              <button
-                type="submit"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-primary"
-              >
-                <Search size={18} />
-              </button>
-            </form>
+            <Popover open={isSearchOpen} onOpenChange={setIsSearchOpen}>
+              <PopoverTrigger asChild>
+                <button className="px-4 py-2 pr-10 rounded-md bg-muted border border-border focus:outline-none focus:ring-1 focus:ring-primary relative min-w-[250px] text-left">
+                  <span className="text-muted-foreground">
+                    {searchValue || "Search antiques..."}
+                  </span>
+                  <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+                    <Search size={18} />
+                  </span>
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="p-0 w-[300px]" align="end" ref={searchRef}>
+                <Command>
+                  <form onSubmit={handleSearch}>
+                    <CommandInput
+                      placeholder="Search antiques..."
+                      value={searchValue}
+                      onValueChange={setSearchValue}
+                    />
+                  </form>
+                  <CommandEmpty>No results found.</CommandEmpty>
+                  {searchResults.length > 0 && (
+                    <CommandGroup heading="Suggestions">
+                      {searchResults.map((antique) => (
+                        <CommandItem
+                          key={antique.id}
+                          value={antique.id}
+                          onSelect={() => handleSearchItemSelect(antique.id)}
+                          className="cursor-pointer"
+                        >
+                          <div className="flex items-center w-full">
+                            <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 mr-2">
+                              <img 
+                                src={antique.imageUrl} 
+                                alt={antique.name}
+                                className="w-full h-full object-cover" 
+                              />
+                            </div>
+                            <div className="flex-1 truncate">
+                              <p className="text-sm font-medium">{antique.name}</p>
+                              <p className="text-xs text-muted-foreground truncate">{antique.era}, {antique.origin}</p>
+                            </div>
+                            <ArrowRight size={14} className="flex-shrink-0 text-muted-foreground" />
+                          </div>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  )}
+                  {searchValue.trim() !== "" && (
+                    <CommandGroup>
+                      <CommandItem 
+                        onSelect={() => {
+                          handleSearch(new Event('submit') as any);
+                        }}
+                        className="cursor-pointer"
+                      >
+                        <Search className="mr-2 h-4 w-4" />
+                        <span>Search for "{searchValue}"</span>
+                      </CommandItem>
+                    </CommandGroup>
+                  )}
+                </Command>
+              </PopoverContent>
+            </Popover>
 
             <Link to="/wishlist" className="relative p-2 text-foreground hover:text-primary transition-colors">
               <Heart size={20} />

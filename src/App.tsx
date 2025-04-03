@@ -12,6 +12,8 @@ import NotFound from "./pages/NotFound";
 import Collection from "./pages/Collection";
 import AntiqueView from "./pages/AntiqueView";
 import Wishlist from "./pages/Wishlist";
+import History from "./pages/History";
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +32,8 @@ const App = () => (
                 <Route path="/collection" element={<Collection />} />
                 <Route path="/antique/:id" element={<AntiqueView />} />
                 <Route path="/wishlist" element={<Wishlist />} />
+                <Route path="/history" element={<History />} />
+                <Route path="/contact" element={<Contact />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>

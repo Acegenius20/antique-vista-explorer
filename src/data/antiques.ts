@@ -1,4 +1,3 @@
-
 export interface Antique {
   id: string;
   name: string;
@@ -35,7 +34,7 @@ export const antiques: Antique[] = [
     year: "c. 1750",
     description: "An exquisite Louis XV period commode with marquetry inlay and gilt bronze mounts.",
     longDescription: "This remarkable Louis XV period commode exemplifies the elegance and sophistication of 18th century French furniture craftsmanship. The commode features a serpentine front and sides, with two drawers adorned with intricate marquetry work depicting floral motifs. The piece is elevated by gilt bronze mounts and stands on cabriole legs. The rich patina of the wood showcases its age and authenticity, making it a true collector's piece.",
-    imageUrl: "https://images.unsplash.com/photo-1618220179428-22790b485390?q=80&w=2127&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1600607686527-a7820a829dfe?q=80&w=1935&auto=format&fit=crop",
     additionalImages: [
       "https://images.unsplash.com/photo-1631489351122-c4506f2d4235?q=80&w=1974&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1600607686527-a7820a829dfe?q=80&w=1935&auto=format&fit=crop"
@@ -173,7 +172,7 @@ export const antiques: Antique[] = [
     material: "Stone",
     year: "c. 1750",
     description: "A carved jade bi disc with auspicious cloud motifs from the Qianlong period.",
-    imageUrl: "https://images.unsplash.com/photo-1503787352657-376f4df1eff7?q=80&w=1974&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1498464619740-386503e7e7f5?q=80&w=1974&auto=format&fit=crop",
     featured: true,
     price: "$22,000",
     condition: "Excellent, with warm honey tones and good translucency"
@@ -203,6 +202,49 @@ export const antiques: Antique[] = [
     featured: false,
     price: "$28,500",
     condition: "Excellent, with clear hallmarks and minimal wear"
+  },
+  {
+    id: "13",
+    name: "Roman Marble Bust",
+    era: "Ancient",
+    origin: "Europe",
+    material: "Stone",
+    year: "c. 100 CE",
+    description: "A well-preserved Roman marble bust of a noble patrician with detailed facial features.",
+    imageUrl: "https://images.unsplash.com/photo-1618220179428-22790b485390?q=80&w=2127&auto=format&fit=crop",
+    featured: true,
+    price: "$95,000",
+    condition: "Excellent considering age, minor chips and weathering",
+    provenance: "From an Italian noble family collection, documented since the 18th century"
+  },
+  {
+    id: "14",
+    name: "Persian Tabriz Carpet",
+    era: "Victorian",
+    origin: "Middle East",
+    material: "Textile",
+    year: "c. 1880",
+    description: "An exceptional Persian Tabriz carpet with intricate floral medallion design and rich colors.",
+    imageUrl: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop",
+    featured: true,
+    price: "$48,000",
+    dimensions: "350cm x 250cm",
+    condition: "Very good, some minor wear consistent with age",
+    provenance: "Private collection, acquired in Istanbul, 1975"
+  },
+  {
+    id: "15",
+    name: "Japanese Meiji Period Tansu",
+    era: "Victorian",
+    origin: "Asia",
+    material: "Wood",
+    year: "c. 1890",
+    description: "A finely crafted Japanese tansu chest with multiple compartments and iron hardware.",
+    imageUrl: "https://images.unsplash.com/photo-1493957988430-a5f2e15f39a3?q=80&w=2070&auto=format&fit=crop",
+    featured: true,
+    price: "$18,500",
+    dimensions: "120cm height x 180cm width x 45cm depth",
+    condition: "Excellent, with beautiful patina and original hardware"
   }
 ];
 
