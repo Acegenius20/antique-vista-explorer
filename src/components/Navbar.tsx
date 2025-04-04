@@ -109,57 +109,59 @@ const Navbar = () => {
                   </span>
                 </button>
               </PopoverTrigger>
-              <PopoverContent className="p-0 w-[300px]" align="end" ref={searchRef}>
-                <Command>
-                  <form onSubmit={handleSearch}>
-                    <CommandInput
-                      placeholder="Search antiques..."
-                      value={searchValue}
-                      onValueChange={setSearchValue}
-                    />
-                  </form>
-                  <CommandEmpty>No results found.</CommandEmpty>
-                  {searchResults.length > 0 && (
-                    <CommandGroup heading="Suggestions">
-                      {searchResults.map((antique) => (
-                        <CommandItem
-                          key={antique.id}
-                          value={antique.id}
-                          onSelect={() => handleSearchItemSelect(antique.id)}
+              <PopoverContent className="p-0 w-[300px]" align="end">
+                <div ref={searchRef}>
+                  <Command>
+                    <form onSubmit={handleSearch}>
+                      <CommandInput
+                        placeholder="Search antiques..."
+                        value={searchValue}
+                        onValueChange={setSearchValue}
+                      />
+                    </form>
+                    <CommandEmpty>No results found.</CommandEmpty>
+                    {searchResults && searchResults.length > 0 && (
+                      <CommandGroup heading="Suggestions">
+                        {searchResults.map((antique) => (
+                          <CommandItem
+                            key={antique.id}
+                            value={antique.id}
+                            onSelect={() => handleSearchItemSelect(antique.id)}
+                            className="cursor-pointer"
+                          >
+                            <div className="flex items-center w-full">
+                              <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 mr-2">
+                                <img 
+                                  src={antique.imageUrl} 
+                                  alt={antique.name}
+                                  className="w-full h-full object-cover" 
+                                />
+                              </div>
+                              <div className="flex-1 truncate">
+                                <p className="text-sm font-medium">{antique.name}</p>
+                                <p className="text-xs text-muted-foreground truncate">{antique.era}, {antique.origin}</p>
+                              </div>
+                              <ArrowRight size={14} className="flex-shrink-0 text-muted-foreground" />
+                            </div>
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    )}
+                    {searchValue.trim() !== "" && (
+                      <CommandGroup>
+                        <CommandItem 
+                          onSelect={() => {
+                            handleSearch(new Event('submit') as any);
+                          }}
                           className="cursor-pointer"
                         >
-                          <div className="flex items-center w-full">
-                            <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 mr-2">
-                              <img 
-                                src={antique.imageUrl} 
-                                alt={antique.name}
-                                className="w-full h-full object-cover" 
-                              />
-                            </div>
-                            <div className="flex-1 truncate">
-                              <p className="text-sm font-medium">{antique.name}</p>
-                              <p className="text-xs text-muted-foreground truncate">{antique.era}, {antique.origin}</p>
-                            </div>
-                            <ArrowRight size={14} className="flex-shrink-0 text-muted-foreground" />
-                          </div>
+                          <Search className="mr-2 h-4 w-4" />
+                          <span>Search for "{searchValue}"</span>
                         </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  )}
-                  {searchValue.trim() !== "" && (
-                    <CommandGroup>
-                      <CommandItem 
-                        onSelect={() => {
-                          handleSearch(new Event('submit') as any);
-                        }}
-                        className="cursor-pointer"
-                      >
-                        <Search className="mr-2 h-4 w-4" />
-                        <span>Search for "{searchValue}"</span>
-                      </CommandItem>
-                    </CommandGroup>
-                  )}
-                </Command>
+                      </CommandGroup>
+                    )}
+                  </Command>
+                </div>
               </PopoverContent>
             </Popover>
 
